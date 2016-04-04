@@ -4,8 +4,8 @@ coding: utf-8
 title: >
   Constrained-Cast: Source-Routed Multicast for RPL
 abbrev: Constrained-Cast
-docname: draft-bergmann-bier-ccast-00
-date: 2014-11-09
+docname: draft-bergmann-bier-ccast-01
+date: 2016-04-03
 category: std
 
 ipr: trust200902
@@ -47,11 +47,24 @@ author:
     country: Germany
     phone: +49-421-218-63906
     email: gerdes@tzi.org
+ -
+    ins: H. Chen
+    name: Hao Chen
+    org: Huawei Technologies
+    street: 12, E. Mozhou Rd
+    city: Nanjing
+    code: 211111
+    country: China
+    phone: +86-25-5662-7052
+    email: philips.chenhao@huawei.com
+
+
 
 normative:
   RFC2119:
 
 informative:
+  I-D.ietf-bier-architecture: bier
   BLOOM:
     author:
     - ins: "B. H. Bloom"
@@ -105,9 +118,15 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
 document are to be interpreted as described in RFC 2119 {{RFC2119}}.
 
+In this specification, the term "byte" is used in its now customary
+sense as a synonym for "octet".
+
+All multi-byte integers in this protocol are interpreted in network
+byte order.
+
 # The BIER Approach
 
-Bit-Indexed Explicit Replication {{?I-D.wijnands-bier-architecture}}
+Bit-Indexed Explicit Replication {{-bier}}
 lists all egress routers in a bitmap included in each multicast
 packet.  This requires creating a mostly contiguous numbering of all
 egress routers; more importantly, BIER requires the presence of a
@@ -148,19 +167,19 @@ unnecessary hotspot for that multicast group.
 # Protocol
 
 The protocol uses DAO-like "MLAO" messages to announce membership to
-the root as specified in Section {{mlao}}.
+the root as specified in {{mlao}}.
 
 For downward messages, the root adds a new routing header that
 includes a hash function identifier and a seed value; another one of
 its fields gives the number of hash functions (k) to ask for k
 instances of application of the hash function, with increasing seed.
-The format of the new routing header is specified in Section {{rh}}.
+The format of the new routing header is specified in {{rh}}.
 
 Typical sizes of the bloom filter bitmap that the root inserts into
-the packet can be 64, 128, or 256 bit, with acceptable false positive
-rates for total numbers of forwarders in the 10s and 100s.  (To do:
-write more about the math here.  Note that this number tallies
-forwarding routers, not end hosts.)
+the packet can be 64, 128, or 256 bit, which may lead to acceptable
+false positive rates if the total number of forwarders in the 10s and
+100s.  (To do: write more about the math here.  Note that this number
+tallies forwarding routers, not end hosts.)
 
 A potential forwarder that receives a multicast packet adorned with a
 constrained-cast routing header first checks that the packet is marked
@@ -243,15 +262,23 @@ hash functions, it is currently unclear if 8 bits number space is
 large enough.
 
 Modulus:
-: The modulus that is used by the hash functions.
+: The modulus that is used by the hash functions, minus 64 (the
+  minimum filter data size that can be used).  The sender chooses the
+  modulus (and thus the filter data size) to achieve its objectives
+  for false positive rates ({{false-positives}}).
 
 Filter data:
 : A bit field that indicates which nodes should relay this multicast
-  datagram. The length of this field is a multiple of 8 octets. The
+  datagram. The length of this field is a multiple of 8 bytes. The
   actual length is derived from the contents of the field Header Ext
   Length.
 
-Note: Do we need the modulus if the filter length is known?
+Note: The modulus could be derived from the length of the filter data
+which is known from the extension header size.  On the other hand,
+keeping a separate record of the modulus means that the sender could
+leave out 8-byte multiples of trailing zero bits if they happen to
+occur.  But then, a modulus that leaves 8-byte sequences of zero bits
+in the filter is probably too large.
 
 # Implementation
 
@@ -323,5 +350,7 @@ This work has been supported by Siemens Corporate Technology.
  -->
 <!--  LocalWords:  decrypt UTC decrypted whitespace preshared HMAC
  -->
-<!--  LocalWords:  multicast RPL
+<!--  LocalWords:  multicast RPL DAOs DODAG IPv multicasts DAO MLAO
+ -->
+<!--  LocalWords:  datagrams datagram Contiki logarithmically unicast
  -->
