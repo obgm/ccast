@@ -4,8 +4,8 @@ coding: utf-8
 title: >
   Constrained-Cast: Source-Routed Multicast for RPL
 abbrev: Constrained-Cast
-docname: draft-bergmann-bier-ccast-01
-date: 2016-04-03
+docname: draft-bergmann-bier-ccast-02
+date: 2016-10-05
 category: std
 
 ipr: trust200902
@@ -103,7 +103,16 @@ networks in the much more common Non-Storing Mode.  Non-Storing is
 based on the root node adding source-routing information to downward
 packets.  Evidently, to make this work, RPL multicast needs to
 source-route multicast packets.  A source route here is a list of
-outgoing interfaces, which subsets the whole set of potential forwarders
+identifiers to instruct forwarders to relay the respective IP
+datagram.
+
+As every forwarder in an IP-based constrained node network has at
+least one network interface, it is straight-forward to use the address
+of an outgoing interface as identifiers in this
+source-route. (Typically, this is a globally unique public address of
+the node's only network adapter.)
+
+The source-route subsets the whole set of potential forwarders
 available in the RPL DODAG to those that need to forward in order to
 reach known multicast listeners.
 
@@ -218,10 +227,14 @@ interested in. This field usually contains a 128 bit IPv6 multicast
 group address. Shorter group identifiers could be used together with a
 protocol for explicit creation of groups.  The MLAO message must have
 at least one RPL target option to specify the address of the listener
-that has generated the MLAO. As the MLAO message is forwarded
-hop-by-hop upwards the routing tree using link-local addresses only,
-the target option is the only way to communicate the interface address
-to be used for group subscription.
+that has generated the MLAO. The message is directed to the global
+unicast address of the DODAG root and travels upwards the routing tree.
+
+Note:
+: It has been suggested to use the RPL Transit Option (Type 0x06)
+  instead as it is used in Non-Storing mode to inform the DODAG root
+  of path attributes.  Specifically, this option can be used to limit
+  the subscription by providing a proper Path Lifetime.
 
 ## Routing Header {#rh}
 
@@ -342,6 +355,8 @@ Types registry:
 {: cols="c l l"}
 
 # Acknowledgments
+
+Thanks to Yasuyuki Tanaka for valuable comments.
 
 This work has been supported by Siemens Corporate Technology.
 
