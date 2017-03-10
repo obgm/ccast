@@ -1,4 +1,13 @@
+*.redxml
 *.txt
 *.html
-*bak
+*.pdf
+*~
+*.swp
+/*-[0-9][0-9].xml
 .refcache
+.targets.mk
+venv/
+issues.json
+lib
+draft-ietf-roll-ccast.md
