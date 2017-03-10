@@ -4,8 +4,8 @@ coding: utf-8
 title: >
   Constrained-Cast: Source-Routed Multicast for RPL
 abbrev: Constrained-Cast
-docname: draft-bergmann-bier-ccast-02
-date: 2016-10-05
+docname: draft-ietf-roll-ccast-latest
+date: 2017-03-10
 category: std
 
 ipr: trust200902

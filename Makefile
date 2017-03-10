@@ -1,4 +1,4 @@
-FILE=ccast
+FILE=draft-ietf-roll-ccast
 OPEN=$(word 1, $(wildcard /usr/bin/xdg-open /usr/bin/open /bin/echo))
 
 all: txt html viewhtml
@@ -12,7 +12,7 @@ viewhtml: $(FILE).html
 
 pdf: $(FILE).pdf
 
-%.xml: %.mkd
+%.xml: %.md
 	kramdown-rfc2629 $< > $@
 
 %.txt: %.xml
