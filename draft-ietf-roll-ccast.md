@@ -324,6 +324,10 @@ filter routing header for unicast forwarding as well (representing,
 instead of the outgoing interface list, a list of children that
 forwarding parents need to forward to).
 
+# Security Considerations
+
+TODO
+
 # IANA Considerations
 
 The following registrations are done following the procedure specified
