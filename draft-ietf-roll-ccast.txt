@@ -261,8 +261,8 @@ Internet-Draft              Constrained-Cast                October 2017
    (SRH-6LoRH) type [RFC8138] to convey the Bloom filter that describes
    the source route for the IPv6 multicast packet to take within the RPL
    routing tree.  The 6LoRH Type for this Constrained Cast Routing
-   Header (CCRH) is set to 7.  Figure 2 depicts the format of this new
-   routing header.
+   Header (CCRH) is set to TBD7.  Figure 2 depicts the format of this
+   new routing header.
 
 
 
@@ -400,8 +400,8 @@ Internet-Draft              Constrained-Cast                October 2017
    specified in [RFC6838].
 
    Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]"
-   with the RFC number of this specification and "IANA TBD1" with the
-   code selected for TBD1 below.
+   with the RFC number of this specification and "TBD1" with the code
+   selected for TBD1 below and "TBD7" with the code selected for TBD7.
 
 9.1.  ICMPv6 Parameter Registration
 
@@ -422,7 +422,7 @@ Internet-Draft              Constrained-Cast                October 2017
                +-------+----------------------+------------+
                | Value | Name                 | Reference  |
                +-------+----------------------+------------+
-               |   7   | CCast Routing Header | [RFC-XXXX] |
+               |  TBD7 | CCast Routing Header | [RFC-XXXX] |
                +-------+----------------------+------------+
 
 10.  Acknowledgments

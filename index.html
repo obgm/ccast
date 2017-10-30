@@ -443,7 +443,7 @@ address {
   <dd style="margin-left: 8">It has been suggested to use the RPL Transit Option (Type 0x06) instead as it is used in Non-Storing mode to inform the DODAG root of path attributes.  Specifically, this option can be used to limit the subscription by providing a proper Path Lifetime.</dd>
 </dl>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#rh" id="rh">Routing Header</a></h1>
-<p id="rfc.section.5.2.p.1">This specification uses a new Soure Routing 6LowPAN Routing Header (SRH-6LoRH) type <a href="#RFC8138">[RFC8138]</a> to convey the Bloom filter that describes the source route for the IPv6 multicast packet to take within the RPL routing tree. The 6LoRH Type for this Constrained Cast Routing Header (CCRH) is set to 7. <a href="#rh-format">Figure 2</a> depicts the format of this new routing header.</p>
+<p id="rfc.section.5.2.p.1">This specification uses a new Soure Routing 6LowPAN Routing Header (SRH-6LoRH) type <a href="#RFC8138">[RFC8138]</a> to convey the Bloom filter that describes the source route for the IPv6 multicast packet to take within the RPL routing tree. The 6LoRH Type for this Constrained Cast Routing Header (CCRH) is set to TBD7. <a href="#rh-format">Figure 2</a> depicts the format of this new routing header.</p>
 <div id="rfc.figure.2"/>
 <div id="rh-format"/>
 <pre>
@@ -529,7 +529,7 @@ address {
 <p id="rfc.section.8.p.1">TODO</p>
 <h1 id="rfc.section.9"><a href="#rfc.section.9">9.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a></h1>
 <p id="rfc.section.9.p.1">The following registrations are done following the procedure specified in <a href="#RFC6838">[RFC6838]</a>.</p>
-<p id="rfc.section.9.p.2">Note to RFC Editor: Please replace all occurrences of &#8220;[RFC-XXXX]&#8221; with the RFC number of this specification and &#8220;IANA TBD1&#8221; with the code selected for TBD1 below.</p>
+<p id="rfc.section.9.p.2">Note to RFC Editor: Please replace all occurrences of &#8220;[RFC-XXXX]&#8221; with the RFC number of this specification and &#8220;TBD1&#8221; with the code selected for TBD1 below and &#8220;TBD7&#8221; with the code selected for TBD7.</p>
 <h1 id="rfc.section.9.1"><a href="#rfc.section.9.1">9.1.</a> <a href="#icmpv6-parameter-registration" id="icmpv6-parameter-registration">ICMPv6 Parameter Registration</a></h1>
 <p id="rfc.section.9.1.p.1">IANA is requested to add the following entry to the Code fields of the RPL Control Codes registry:</p>
 <table cellpadding="3" cellspacing="0" class="tt full center">
@@ -560,7 +560,7 @@ address {
   </thead>
   <tbody>
     <tr>
-      <td class="center">7</td>
+      <td class="center">TBD7</td>
       <td class="left">CCast Routing Header</td>
       <td class="left">[RFC-XXXX]</td>
     </tr>
