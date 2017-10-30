@@ -63,6 +63,7 @@ author:
 normative:
   RFC2119:
   RFC8174:
+  RFC8138:
 
 informative:
   I-D.ietf-bier-architecture: bier
@@ -241,35 +242,47 @@ Note:
 
 ## Routing Header {#rh}
 
+This specification uses a new Soure Routing 6LowPAN Routing Header
+(SRH-6LoRH) type {{RFC8138}} to convey the Bloom filter that describes
+the source route for the IPv6 multicast packet to take within the RPL
+routing tree. The 6LoRH Type for this Constrained Cast Routing Header
+(CCRH) is set to 7. {{rh-format}} depicts the format of this new
+routing header.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        0                   1                   2                   3
-        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |  Next Header  |  Hdr Ext Len  |  Routing Type | Segments Left |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |        Sequence Number        |   Func set    |    Modulus    |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |                                                               |
-       .                                                               .
-       .                       Filter data                             .
-       .                                                               .
-       |                                                               |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |1|0|0|rsv|BSize| 6LoRH Type 7  | Func set      |    Modulus    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Sequence Number                                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   .                                                               .
+   .                       Filter data                             .
+   .                                                               .
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {: #rh-format title="Routing header"}
 
-Routing Type:
-: {IANA TBD2} 253
+rsv: This field is reserved for future use an MUST be set to 0 when
+: sending a packet containing a CCRH. A receiver MUST ignore the value
+  of the rsv field.
 
-Segments Left: 
-: This value is always 0, so network nodes that do not support this
-  routing header do not generate ICMP6 error messages.
+BSize:
+: Specifies the size of the included Bloom filter. Currently, only 
+  64 bits, 128 bits, or 256 bits are supported. The BSize field is
+  encoded as specified in {{rh-bsize}}.
 
-Sequence Number:
-: 16 bits sequence number. The number space is unique for a sequence
-  of multicast datagrams for a specific group that arrive at the DAG
-  root on their way up.  The DAG root increments the number for each
-  datagram it sends down the respective DODAG.
+| BSize value | Filter Size (Bits) |
+|-------------+--------------------|
+|           0 |                 64 |
+|           1 |                128 |
+|           2 |                256 |
+{: #rh-bsize title="Possible Bloom Filter Lengths"}
+
 
 Func set:
 : The set of hash functions used to generate the Filter data value.
@@ -284,18 +297,18 @@ Modulus:
   modulus (and thus the filter data size) to achieve its objectives
   for false positive rates ({{false-positives}}).
 
+Sequence Number:
+: 32 bits sequence number. The number space is unique for a sequence
+  of multicast datagrams for a specific group that arrive at the DAG
+  root on their way up.  The DAG root increments the number for each
+  datagram it sends down the respective DODAG.
+
 Filter data:
 : A bit field that indicates which nodes should relay this multicast
-  datagram. The length of this field is a multiple of 8 bytes. The
-  actual length is derived from the contents of the field Header Ext
-  Length.
+  datagram. The length of this field is a multiple of 8 bytes
+  (2^(BSize + 3) bytes). The actual length is derived from the
+  contents of the field BSize.
 
-Note: The modulus could be derived from the length of the filter data
-which is known from the extension header size.  On the other hand,
-keeping a separate record of the modulus means that the DAG root could
-leave out 8-byte multiples of trailing zero bits if they happen to
-occur.  But then, a modulus that leaves 8-byte sequences of zero bits
-in the filter is probably too large.
 
 # Implementation
 
@@ -338,8 +351,7 @@ in {{?RFC6838}}.
 
 Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with
 the RFC number of this specification and "IANA TBD1" with the code
-selected for TBD1 below and "IANA TBD2" with the value selected for
-TBD2 below.
+selected for TBD1 below.
 
 ## ICMPv6 Parameter Registration
 
@@ -351,14 +363,14 @@ RPL Control Codes registry:
 | TBD1    | MLAO                 | {{&SELF}} |
 {: cols="c l l"}
 
-## IPv6 Routing Type Registration
+## Critical 6LowPAN Routing Header Type Registration
 
-IANA is requested to add the following entries to the IPv6 Routing
-Types registry:
+IANA is requested to add the following entries to the Critical 6LowPAN
+Routing Header Type Registration registry:
 
-| Value   | Name                 | Reference |
-|---------:----------------------:-----------|
-| TBD2    | CCast Routing Header | {{&SELF}} |
+| Value | Name                 | Reference |
+|-------+----------------------+-----------|
+|     7 | CCast Routing Header | {{&SELF}} |
 {: cols="c l l"}
 
 # Acknowledgments
