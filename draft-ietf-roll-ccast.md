@@ -62,6 +62,7 @@ author:
 
 normative:
   RFC2119:
+  RFC8174:
 
 informative:
   I-D.ietf-bier-architecture: bier
@@ -124,8 +125,10 @@ prohibitively quickly.
 ## Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in RFC 2119 {{RFC2119}}.
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in BCP
+14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all
+capitals, as shown here.
 
 In this specification, the term "byte" is used in its now customary
 sense as a synonym for "octet".
