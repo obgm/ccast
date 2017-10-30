@@ -5,13 +5,13 @@ title: >
   Constrained-Cast: Source-Routed Multicast for RPL
 abbrev: Constrained-Cast
 docname: draft-ietf-roll-ccast-latest
-date: 2017-03-10
+date: 2017-10-30
 category: std
 
 ipr: trust200902
-area: Applications
-#workgroup: ACE Working Group
-#keyword: Internet-Draft
+area: Routing
+workgroup: Roll Working Group
+keyword: Internet-Draft
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs, compact]
