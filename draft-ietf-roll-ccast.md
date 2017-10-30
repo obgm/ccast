@@ -246,7 +246,7 @@ This specification uses a new Soure Routing 6LowPAN Routing Header
 (SRH-6LoRH) type {{RFC8138}} to convey the Bloom filter that describes
 the source route for the IPv6 multicast packet to take within the RPL
 routing tree. The 6LoRH Type for this Constrained Cast Routing Header
-(CCRH) is set to 7. {{rh-format}} depicts the format of this new
+(CCRH) is set to TBD7. {{rh-format}} depicts the format of this new
 routing header.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -350,8 +350,8 @@ The following registrations are done following the procedure specified
 in {{?RFC6838}}.
 
 Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with
-the RFC number of this specification and "IANA TBD1" with the code
-selected for TBD1 below.
+the RFC number of this specification and "TBD1" with the code
+selected for TBD1 below and "TBD7" with the code selected for TBD7.
 
 ## ICMPv6 Parameter Registration
 
@@ -370,8 +370,9 @@ Routing Header Type Registration registry:
 
 | Value | Name                 | Reference |
 |-------+----------------------+-----------|
-|     7 | CCast Routing Header | {{&SELF}} |
+|  TBD7 | CCast Routing Header | {{&SELF}} |
 {: cols="c l l"}
+
 
 # Acknowledgments
 
