@@ -2,13 +2,13 @@
 
 
 
-Network Working Group                                        O. Bergmann
+Roll Working Group                                           O. Bergmann
 Internet-Draft                                                C. Bormann
 Intended status: Standards Track                               S. Gerdes
-Expires: September 11, 2017                      Universitaet Bremen TZI
+Expires: May 3, 2018                             Universitaet Bremen TZI
                                                                  H. Chen
                                                      Huawei Technologies
-                                                          March 10, 2017
+                                                        October 30, 2017
 
 
            Constrained-Cast: Source-Routed Multicast for RPL
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 11, 2017.
+   This Internet-Draft will expire on May 3, 2018.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Bergmann, et al.       Expires September 11, 2017               [Page 1]
+Bergmann, et al.           Expires May 3, 2018                  [Page 1]
 
-Internet-Draft              Constrained-Cast                  March 2017
+Internet-Draft              Constrained-Cast                October 2017
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -71,16 +71,16 @@ Table of Contents
    5.  Protocol  . . . . . . . . . . . . . . . . . . . . . . . . . .   4
      5.1.  Multicast Listener Advertisement Object (MLAO)  . . . . .   4
      5.2.  Routing Header  . . . . . . . . . . . . . . . . . . . . .   5
-   6.  Implementation  . . . . . . . . . . . . . . . . . . . . . . .   6
+   6.  Implementation  . . . . . . . . . . . . . . . . . . . . . . .   7
    7.  Benefits  . . . . . . . . . . . . . . . . . . . . . . . . . .   7
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
-     9.1.  ICMPv6 Parameter Registration . . . . . . . . . . . . . .   7
-     9.2.  IPv6 Routing Type Registration  . . . . . . . . . . . . .   7
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+     9.1.  ICMPv6 Parameter Registration . . . . . . . . . . . . . .   8
+     9.2.  Critical 6LowPAN Routing Header Type Registration . . . .   8
    10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
      11.1.  Normative References . . . . . . . . . . . . . . . . . .   8
-     11.2.  Informative References . . . . . . . . . . . . . . . . .   8
+     11.2.  Informative References . . . . . . . . . . . . . . . . .   9
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
 
 1.  Introduction
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Bergmann, et al.       Expires September 11, 2017               [Page 2]
+Bergmann, et al.           Expires May 3, 2018                  [Page 2]
 
-Internet-Draft              Constrained-Cast                  March 2017
+Internet-Draft              Constrained-Cast                October 2017
 
 
    The source-route subsets the whole set of potential forwarders
@@ -126,8 +126,10 @@ Internet-Draft              Constrained-Cast                  March 2017
 1.1.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in RFC 2119 [RFC2119].
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
 
    In this specification, the term "byte" is used in its now customary
    sense as a synonym for "octet".
@@ -163,11 +165,9 @@ Internet-Draft              Constrained-Cast                  March 2017
 
 
 
-
-
-Bergmann, et al.       Expires September 11, 2017               [Page 3]
+Bergmann, et al.           Expires May 3, 2018                  [Page 3]
 
-Internet-Draft              Constrained-Cast                  March 2017
+Internet-Draft              Constrained-Cast                October 2017
 
 
 4.  False Positives
@@ -221,9 +221,9 @@ Internet-Draft              Constrained-Cast                  March 2017
 
 
 
-Bergmann, et al.       Expires September 11, 2017               [Page 4]
+Bergmann, et al.           Expires May 3, 2018                  [Page 4]
 
-Internet-Draft              Constrained-Cast                  March 2017
+Internet-Draft              Constrained-Cast                October 2017
 
 
         0                   1                   2                   3
@@ -257,39 +257,65 @@ Internet-Draft              Constrained-Cast                  March 2017
 
 5.2.  Routing Header
 
-        0                   1                   2                   3
-        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |  Next Header  |  Hdr Ext Len  |  Routing Type | Segments Left |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |        Sequence Number        |   Func set    |    Modulus    |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |                                                               |
-       .                                                               .
-       .                       Filter data                             .
-       .                                                               .
-       |                                                               |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   This specification uses a new Soure Routing 6LowPAN Routing Header
+   (SRH-6LoRH) type [RFC8138] to convey the Bloom filter that describes
+   the source route for the IPv6 multicast packet to take within the RPL
+   routing tree.  The 6LoRH Type for this Constrained Cast Routing
+   Header (CCRH) is set to 7.  Figure 2 depicts the format of this new
+   routing header.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                  [Page 5]
+
+Internet-Draft              Constrained-Cast                October 2017
+
+
+       0                   1                   2                   3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |1|0|0|rsv|BSize| 6LoRH Type 7  | Func set      |    Modulus    |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |  Sequence Number                                              |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                                                               .
+      .                       Filter data                             .
+      .                                                               .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 
                          Figure 2: Routing header
 
-   Routing Type:  {IANA TBD2} 253
+   rsv: This field is reserved for future use an MUST be set to 0 when
+      sending a packet containing a CCRH.  A receiver MUST ignore the
+      value of the rsv field.
 
+   BSize:  Specifies the size of the included Bloom filter.  Currently,
+      only 64 bits, 128 bits, or 256 bits are supported.  The BSize
+      field is encoded as specified in Table 1.
 
+                   +-------------+--------------------+
+                   | BSize value | Filter Size (Bits) |
+                   +-------------+--------------------+
+                   | 0           | 64                 |
+                   | 1           | 128                |
+                   | 2           | 256                |
+                   +-------------+--------------------+
 
-Bergmann, et al.       Expires September 11, 2017               [Page 5]
-
-Internet-Draft              Constrained-Cast                  March 2017
-
-
-   Segments Left:  This value is always 0, so network nodes that do not
-      support this routing header do not generate ICMP6 error messages.
-
-   Sequence Number:  16 bits sequence number.  The number space is
-      unique for a sequence of multicast datagrams for a specific group
-      that arrive at the DAG root on their way up.  The DAG root
-      increments the number for each datagram it sends down the
-      respective DODAG.
+                  Table 1: Possible Bloom Filter Lengths
 
    Func set:  The set of hash functions used to generate the Filter data
       value.
@@ -303,17 +329,25 @@ Internet-Draft              Constrained-Cast                  March 2017
       chooses the modulus (and thus the filter data size) to achieve its
       objectives for false positive rates (Section 4).
 
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                  [Page 6]
+
+Internet-Draft              Constrained-Cast                October 2017
+
+
+   Sequence Number:  32 bits sequence number.  The number space is
+      unique for a sequence of multicast datagrams for a specific group
+      that arrive at the DAG root on their way up.  The DAG root
+      increments the number for each datagram it sends down the
+      respective DODAG.
+
    Filter data:  A bit field that indicates which nodes should relay
       this multicast datagram.  The length of this field is a multiple
-      of 8 bytes.  The actual length is derived from the contents of the
-      field Header Ext Length.
-
-   Note: The modulus could be derived from the length of the filter data
-   which is known from the extension header size.  On the other hand,
-   keeping a separate record of the modulus means that the DAG root
-   could leave out 8-byte multiples of trailing zero bits if they happen
-   to occur.  But then, a modulus that leaves 8-byte sequences of zero
-   bits in the filter is probably too large.
+      of 8 bytes (2^(BSize + 3) bytes).  The actual length is derived
+      from the contents of the field BSize.
 
 6.  Implementation
 
@@ -329,15 +363,6 @@ Internet-Draft              Constrained-Cast                  March 2017
    bloom filter routing header to each downward packet.  For adding a
    new member, the relevant outgoing interfaces are simply added to the
    bloom filter.  For removing a leaving member, however, the bloom
-
-
-
-
-Bergmann, et al.       Expires September 11, 2017               [Page 6]
-
-Internet-Draft              Constrained-Cast                  March 2017
-
-
    filter needs to be recomputed (which can be sped up logarithmically
    if desired).
 
@@ -359,6 +384,16 @@ Internet-Draft              Constrained-Cast                  March 2017
 
    TODO
 
+
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                  [Page 7]
+
+Internet-Draft              Constrained-Cast                October 2017
+
+
 9.  IANA Considerations
 
    The following registrations are done following the procedure
@@ -366,8 +401,7 @@ Internet-Draft              Constrained-Cast                  March 2017
 
    Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]"
    with the RFC number of this specification and "IANA TBD1" with the
-   code selected for TBD1 below and "IANA TBD2" with the value selected
-   for TBD2 below.
+   code selected for TBD1 below.
 
 9.1.  ICMPv6 Parameter Registration
 
@@ -380,24 +414,15 @@ Internet-Draft              Constrained-Cast                  March 2017
                        | TBD1 | MLAO | [RFC-XXXX] |
                        +------+------+------------+
 
-9.2.  IPv6 Routing Type Registration
+9.2.  Critical 6LowPAN Routing Header Type Registration
 
-   IANA is requested to add the following entries to the IPv6 Routing
-   Types registry:
-
-
-
-
-
-Bergmann, et al.       Expires September 11, 2017               [Page 7]
-
-Internet-Draft              Constrained-Cast                  March 2017
-
+   IANA is requested to add the following entries to the Critical
+   6LowPAN Routing Header Type Registration registry:
 
                +-------+----------------------+------------+
                | Value | Name                 | Reference  |
                +-------+----------------------+------------+
-               |  TBD2 | CCast Routing Header | [RFC-XXXX] |
+               |   7   | CCast Routing Header | [RFC-XXXX] |
                +-------+----------------------+------------+
 
 10.  Acknowledgments
@@ -412,15 +437,34 @@ Internet-Draft              Constrained-Cast                  March 2017
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <http://www.rfc-editor.org/info/rfc2119>.
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
+
+
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                  [Page 8]
+
+Internet-Draft              Constrained-Cast                October 2017
+
 
    [RFC6550]  Winter, T., Ed., Thubert, P., Ed., Brandt, A., Hui, J.,
               Kelsey, R., Levis, P., Pister, K., Struik, R., Vasseur,
               JP., and R. Alexander, "RPL: IPv6 Routing Protocol for
               Low-Power and Lossy Networks", RFC 6550,
-              DOI 10.17487/RFC6550, March 2012,
-              <http://www.rfc-editor.org/info/rfc6550>.
+              DOI 10.17487/RFC6550, March 2012, <https://www.rfc-
+              editor.org/info/rfc6550>.
+
+   [RFC8138]  Thubert, P., Ed., Bormann, C., Toutain, L., and R. Cragie,
+              "IPv6 over Low-Power Wireless Personal Area Network
+              (6LoWPAN) Routing Header", RFC 8138, DOI 10.17487/RFC8138,
+              April 2017, <https://www.rfc-editor.org/info/rfc8138>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 11.2.  Informative References
 
@@ -432,30 +476,35 @@ Internet-Draft              Constrained-Cast                  March 2017
    [I-D.ietf-bier-architecture]
               Wijnands, I., Rosen, E., Dolganow, A., Przygienda, T., and
               S. Aldrin, "Multicast using Bit Index Explicit
-              Replication", draft-ietf-bier-architecture-05 (work in
-              progress), October 2016.
+              Replication", draft-ietf-bier-architecture-08 (work in
+              progress), September 2017.
 
    [RFC6554]  Hui, J., Vasseur, JP., Culler, D., and V. Manral, "An IPv6
               Routing Header for Source Routes with the Routing Protocol
               for Low-Power and Lossy Networks (RPL)", RFC 6554,
-              DOI 10.17487/RFC6554, March 2012,
-              <http://www.rfc-editor.org/info/rfc6554>.
-
-
-
-
-
-Bergmann, et al.       Expires September 11, 2017               [Page 8]
-
-Internet-Draft              Constrained-Cast                  March 2017
-
+              DOI 10.17487/RFC6554, March 2012, <https://www.rfc-
+              editor.org/info/rfc6554>.
 
    [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
-              <http://www.rfc-editor.org/info/rfc6838>.
+              <https://www.rfc-editor.org/info/rfc6838>.
 
 Authors' Addresses
+
+
+
+
+
+
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                  [Page 9]
+
+Internet-Draft              Constrained-Cast                October 2017
+
 
    Olaf Bergmann
    Universitaet Bremen TZI
@@ -501,4 +550,11 @@ Authors' Addresses
 
 
 
-Bergmann, et al.       Expires September 11, 2017               [Page 9]
+
+
+
+
+
+
+
+Bergmann, et al.           Expires May 3, 2018                 [Page 10]
