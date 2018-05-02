@@ -5,7 +5,7 @@ title: >
   Constrained-Cast: Source-Routed Multicast for RPL
 abbrev: Constrained-Cast
 docname: draft-ietf-roll-ccast-latest
-date: 2017-10-30
+#date: 2017-10-30
 category: std
 
 ipr: trust200902
@@ -66,7 +66,7 @@ normative:
   RFC8138:
 
 informative:
-  I-D.ietf-bier-architecture: bier
+  RFC8279: bier
   BLOOM:
     author:
     - ins: "B. H. Bloom"
