@@ -61,9 +61,7 @@ author:
 
 
 normative:
-  RFC2119:
-  RFC8174:
-  RFC8138:
+  RFC8138: 6lorh
 
 informative:
   RFC8279: bier
@@ -84,7 +82,7 @@ entity:
 --- abstract
 
 This specification defines a protocol for forwarding multicast traffic
-in a constrained node network employing the RPL routing protocol in
+in a constrained node network that employs the RPL routing protocol in
 non-storing mode.
 
 --- middle
@@ -97,7 +95,7 @@ operates in Storing Mode.  Multicast DAOs are used to indicate
 subscription to multicast address to a parent; these DAOs percolate up and create bread-crumbs.
 This specification, although part of RFC 6550, appears to be
 incomplete and untested.
-More importantly, Storing Mode is not in use in constrained node
+More importantly, Storing Mode is not the preferred mode in constrained node
 networks outside research operating environments.
 
 The present specification addresses multicast forwarding for RPL
@@ -125,11 +123,7 @@ prohibitively quickly.
 
 ## Terminology
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-"OPTIONAL" in this document are to be interpreted as described in BCP
-14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all
-capitals, as shown here.
+{::boilerplate bcp14}
 
 In this specification, the term "byte" is used in its now customary
 sense as a synonym for "octet".
@@ -143,7 +137,7 @@ Bit-Indexed Explicit Replication {{-bier}}
 lists all egress routers in a bitmap included in each multicast
 packet.  This requires creating a mostly contiguous numbering of all
 egress routers; more importantly, BIER requires the presence of a
-network map in each forwarders to be able to interpret the bitmap and
+network map in each forwarder to be able to interpret the bitmap and
 map it to a set of local outgoing interfaces.
 
 # The Constrained-Cast Approach
